@@ -1,0 +1,77 @@
+{**
+ * Copyright (c) 2018 Wakers.cz
+ *
+ * @author Jiří Zapletal (http://www.wakers.cz, zapletal@wakers.cz)
+ *
+ *}
+
+<div class="wakers_modal" id="wakers_onpage_redirect_modal">
+    <div class="modal_title">
+        <a href="#" class="close" data-wakers-modal-close>&#x2715</a>
+        Přesměrování starých odkazů ({$presenter->template->langEntity->getName()})
+    </div>
+
+    {snippet redirectForm}
+        <form n:name="redirectForm" class="wakers_form" data-wakers-nofocus>
+            <div class="form_group">
+                <div class="group_label">
+                    <label n:name="oldUrl">Původní URL:</label>
+                </div>
+
+                <div class="group_control">
+                    <input n:name="oldUrl" placeholder="př: http://muj-stary-web.cz/telefony?&cat=242&page=3">
+                </div>
+            </div>
+
+            <div class="form_group">
+                <div class="group_label">
+                    <label n:name="pageId">Přesměrovat na:</label>
+                </div>
+
+                <div class="group_control">
+                    <select n:name="pageId"></select>
+                </div>
+            </div>
+
+            <div class="form_group">
+                <div class="group_label"></div>
+                <div class="group_control">
+                    <button n:name="save" type="submit" class="wakers_btn" data-wakers-progress-button>Uložit odkaz</button>
+                </div>
+            </div>
+        </form>
+    {/snippet}
+
+    <div class="modal_subtitle">
+        Přehled odkazů
+    </div>
+
+    <div class="wakers_table">
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Původní URL --> Nová URL</th>
+            </tr>
+            </thead>
+            <tbody n:snippet="redirectSummary">
+            <tr n:foreach="$redirects as $redirect">
+                <td>{$iterator->getCounter()}</td>
+                <td>
+                    <a href="{$redirect->getOldUrl()}">{$redirect->getOldUrl()}</a><br>
+                    --> <a href="#" target="_blank" title="Testovací stránka">{$baseUrl}/{$redirect->getPage()->getPageUrl()->getUrl()}</a>
+                </td>
+                <td class="text_right actions">
+                    <a href="{plink onPageRemoveRedirectModal:Open! 'redirectId' => $redirect->getId()}" class="wakers_btn btn_small inverse" data-wakers-tooltip="Odstranit" data-wakers-modal-open="wakers_onpage_redirect_remove_modal" data-wakers-progress-button>
+                        &#x267A;
+                    </a>
+
+                    <a href="{link Edit! 'redirectId' => $redirect->getId()}" target="_blank" class="wakers_btn btn_small inverse" data-wakers-tooltip="Upravit" data-wakers-progress-button>
+                        &#x270E;
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

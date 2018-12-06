@@ -1,0 +1,13 @@
+<table name="on_page_redirect" phpName="Redirect" namespace="OnPageModule\Database" package="./onpage-module/">
+    <column name="id" type="INTEGER" required="TRUE" primaryKey="TRUE" autoIncrement="TRUE"/>
+    <column name="page_id" type="INTEGER" required="TRUE"/>
+    <column name="old_url" type="VARCHAR" size="255" required="TRUE"/>
+
+    <foreign-key foreignTable="page" onDelete="CASCADE">
+        <reference local="page_id" foreign="id"/>
+    </foreign-key>
+
+    <unique>
+        <unique-column name="old_url"/>
+    </unique>
+</table>

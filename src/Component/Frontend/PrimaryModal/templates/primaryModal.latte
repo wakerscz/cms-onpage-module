@@ -1,0 +1,68 @@
+{**
+ * Copyright (c) 2018 Wakers.cz
+ *
+ * @author Jiří Zapletal (http://www.wakers.cz, zapletal@wakers.cz)
+ *
+ *}
+
+<div class="wakers_modal" id="wakers_onpage_primary_modal">
+
+    <div class="modal_title">
+        <a href="#" class="close" data-wakers-modal-close>&#x2715</a>
+        Nastavení pro vyhledávače
+    </div>
+
+    <div class="modal_info">
+        Nezapomeňte stránku připravit i pro <a href="#" data-wakers-modal-open="wakers_onpage_social_modal">sociální sítě!</a>
+    </div>
+
+    <form n:name="primaryForm" class="wakers_form">
+        <div class="form_group">
+            <div class="group_label">
+                <label n:name="title">Titulek:</label>
+            </div>
+
+            <div class="group_control">
+                <input n:name="title" placeholder="Ideálně 55 znaků">
+            </div>
+        </div>
+
+        <div class="form_group">
+            <div class="group_label">
+                <label n:name="description">Popisek:</label>
+            </div>
+
+            <div class="group_control">
+                <input n:name="description" placeholder="Ideálně 150 - 160 znaků">
+            </div>
+        </div>
+
+        <div class="form_group">
+            <div class="group_label">
+                <label n:name="indexingType">Indexace:</label>
+            </div>
+
+            <div class="group_control">
+                <select n:name="indexingType"></select>
+            </div>
+        </div>
+
+        <div class="form_group">
+            <div class="group_label">
+                <label n:name="isCanonical">Kanonizace:</label>
+            </div>
+
+            <div class="group_control">
+                <select n:name="isCanonical"></select>
+            </div>
+        </div>
+
+        <div class="form_group">
+            <div class="group_label"></div>
+            <div class="group_control">
+                <button n:name="save" type="submit" class="wakers_btn" data-wakers-progress-button>Uložit nastavení</button>
+            </div>
+        </div>
+    </form>
+
+</div>

@@ -1,0 +1,14 @@
+services:
+
+    # Managers
+    - Wakers\OnPageModule\Manager\OnPageManager
+
+    # Repositories
+    - Wakers\OnPageModule\Repository\OnPageRepository(%baseDomain%)
+
+    # Components
+    - Wakers\OnPageModule\Component\Frontend\Head\IHead
+    - Wakers\OnPageModule\Component\Frontend\SocialModal\ISocialModal
+    - Wakers\OnPageModule\Component\Frontend\PrimaryModal\IPrimaryModal
+    - Wakers\OnPageModule\Component\Frontend\RedirectModal\IRedirectModal
+    - Wakers\OnPageModule\Component\Frontend\RemoveRedirectModal\IRemoveRedirectModal

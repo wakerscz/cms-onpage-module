@@ -1,0 +1,43 @@
+{**
+ * Copyright (c) 2018 Wakers.cz
+ *
+ * @author Jiří Zapletal (http://www.wakers.cz, zapletal@wakers.cz)
+ *
+ *}
+
+
+{define indexingType}
+    {var $opp = Wakers\OnPageModule\Database\Primary::class}
+
+    {switch $onPagePrimary->getIndexingType()}
+        {case $opp::INDEXING_TYPE_INDEX_FOLLOW}
+            index,follow
+        {case $opp::INDEXING_TYPE_INDEX_NOFOLLOW}
+            index,nofollow
+        {case $opp::INDEXING_TYPE_NOINDEX_FOLLOW}
+            noindex,follow
+        {case $opp::INDEXING_TYPE_NOINDEX_NOFOLLOW}
+            noindex,nofollow
+    {/switch}
+{/define}
+
+<title n:snippet="title">
+    {if $onPagePrimary}
+        {$onPagePrimary->getTitle()}
+    {else}
+        Wakers CMS 5.0
+    {/if}
+</title>
+
+{if $onPagePrimary}
+    <meta n:if="$onPagePrimary->getDescription()" name="description" content="{$onPagePrimary->getDescription()}">
+    <meta n:if="$onPagePrimary->getIndexingType()" name="robots" content="{include indexingType|trim}">
+{/if}
+
+{if $onPageSocial}
+    <meta property="og:type" content="website">
+    <meta n:if="$onPageSocial->getImage()" property="og:image" content="{img $onPageSocial->getImage(), '1200x600', 'EXACT'}">
+    <meta property="og:url" content="{$baseUrl}{plink 'this'}">
+    <meta property="og:title" content="{$onPageSocial->getTitle()}">
+    <meta property="og:description" content="{$onPageSocial->getDescription()}">
+{/if}
