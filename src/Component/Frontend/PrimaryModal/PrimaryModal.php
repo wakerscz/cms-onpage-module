@@ -13,7 +13,6 @@ use Nette\Application\UI\Form;
 use Wakers\BaseModule\Component\Frontend\BaseControl;
 use Wakers\BaseModule\Database\DatabaseException;
 use Wakers\BaseModule\Util\AjaxValidate;
-use Wakers\LangModule\Translator\Translate;
 use Wakers\OnPageModule\Database\Primary;
 use Wakers\OnPageModule\Manager\OnPageManager;
 use Wakers\PageModule\Database\Page;
@@ -38,12 +37,6 @@ class PrimaryModal extends BaseControl
 
 
     /**
-     * @var Translate
-     */
-    protected $translate;
-
-
-    /**
      * @var callable
      */
     public $onSave = [];
@@ -53,16 +46,12 @@ class PrimaryModal extends BaseControl
      * PrimaryModal constructor.
      * @param OnPageManager $onPageManager
      * @param PageRepository $pageRepository
-     * @param Translate $translate
      */
     public function __construct(
         OnPageManager $onPageManager,
-        PageRepository $pageRepository,
-        Translate $translate
+        PageRepository $pageRepository
     ) {
         $this->onPageManager = $onPageManager;
-        $this->translate = $translate;
-
         $this->activePage = $pageRepository->getActivePage();
     }
 
@@ -100,20 +89,20 @@ class PrimaryModal extends BaseControl
         $form = new Form;
 
         $form->addText('title')
-            ->setRequired('Page title is required.')
-            ->addRule(Form::MIN_LENGTH, 'Minimal length of page title is %d chars.', 3)
-            ->addRule(Form::MAX_LENGTH, 'Maximal length of page title is %d chars.', 100);
+            ->setRequired('Titulek stránky je povinný.')
+            ->addRule(Form::MIN_LENGTH, 'Minimální délka názvu stránky jsou %d znaky.', 3)
+            ->addRule(Form::MAX_LENGTH, 'Maximální délka názvu stránky je %d znaků.', 100);
 
         $form->addText('description')
             ->setRequired(FALSE)
-            ->addRule(Form::MIN_LENGTH, 'Minimal length of page title is %d chars.', 3)
-            ->addRule(Form::MAX_LENGTH, 'Maximal length of page title is %d chars.', 200);
+            ->addRule(Form::MIN_LENGTH, 'Minimální délka popisu stránky jsou %d znaky.', 3)
+            ->addRule(Form::MAX_LENGTH, 'Maximální délka popisu stránky je %d znaků.', 200);
 
         $form->addSelect('indexingType', NULL, $indexingTypes)
-            ->setRequired('Type of indexing is required.');
+            ->setRequired('Typ indexace je povinný.');
 
         $form->addSelect('isCanonical', NULL, $canonicalTypes)
-            ->setRequired('Type of canonization is required.');
+            ->setRequired('Typ kanonizace je povinný.');
 
         $form->addSubmit('save');
 
@@ -154,8 +143,8 @@ class PrimaryModal extends BaseControl
                 $this->onPageManager->savePrimary($this->activePage, $values->title, $values->description, $values->indexingType, $values->isCanonical);
 
                 $this->presenter->notificationAjax(
-                    $this->translate->translate('Page updated'),
-                    $this->translate->translate('On-page factors has been successfully updated.'),
+                    'On-Page faktory',
+                    'On-Page faktory byly úspěšně upraveny.',
                     'success',
                     FALSE
                 );
@@ -165,7 +154,7 @@ class PrimaryModal extends BaseControl
             catch (DatabaseException $exception)
             {
                 $this->presenter->notificationAjax(
-                    $this->translate->translate('Error'),
+                    'Chyba',
                     $exception->getMessage(),
                     'error'
                 );

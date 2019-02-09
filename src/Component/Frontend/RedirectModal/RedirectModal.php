@@ -15,7 +15,6 @@ use Wakers\BaseModule\Util\AjaxValidate;
 use Wakers\BaseModule\Database\DatabaseException;
 use Wakers\LangModule\Database\Lang;
 use Wakers\LangModule\Repository\LangRepository;
-use Wakers\LangModule\Translator\Translate;
 use Wakers\OnPageModule\Manager\OnPageManager;
 use Wakers\OnPageModule\Repository\OnPageRepository;
 use Wakers\PageModule\Database\Page;
@@ -58,12 +57,6 @@ class RedirectModal extends BaseControl
 
 
     /**
-     * @var Translate
-     */
-    protected $translate;
-
-
-    /**
      * @var callable
      */
     public $onSave = [];
@@ -88,20 +81,17 @@ class RedirectModal extends BaseControl
      * @param LangRepository $langRepository
      * @param OnPageRepository $onPageRepository
      * @param OnPageManager $onPageManager
-     * @param Translate $translate
      */
     public function __construct(
         PageRepository $pageRepository,
         LangRepository $langRepository,
         OnPageRepository $onPageRepository,
-        OnPageManager $onPageManager,
-        Translate $translate
+        OnPageManager $onPageManager
     )
     {
         $this->pageRepository = $pageRepository;
         $this->onPageRepository = $onPageRepository;
         $this->onPageManager = $onPageManager;
-        $this->translate = $translate;
 
         $this->activePage = $pageRepository->getActivePage();
         $this->activeLang = $langRepository->getActiveLang();
@@ -139,10 +129,10 @@ class RedirectModal extends BaseControl
         $form = new Form;
 
         $form->addText('oldUrl')
-            ->setRequired('Old URL is required');
+            ->setRequired('Původní URL je povinná.');
 
         $form->addSelect('pageId', NULL, $pages)
-            ->setRequired('Target page is required');
+            ->setRequired('Cílová stránka je povinná.');
 
         $form->addSubmit('save');
 
@@ -191,8 +181,8 @@ class RedirectModal extends BaseControl
                 $form->reset();
 
                 $this->presenter->notificationAjax(
-                    $this->translate->translate('URL redirect'),
-                    $this->translate->translate('URL redirect has been successfully saved.'),
+                    'URL přesměrována',
+                    'URL byla úspěšně přesměrována.',
                     'success',
                     FALSE
                 );
@@ -202,7 +192,7 @@ class RedirectModal extends BaseControl
             catch (DatabaseException $exception)
             {
                 $this->presenter->notificationAjax(
-                    $this->translate->translate('Error'),
+                    'Chyba',
                     $exception->getMessage(),
                     'error'
                 );

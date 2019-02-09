@@ -11,12 +11,10 @@ namespace Wakers\OnPageModule\Component\Frontend\SocialModal;
 
 
 use Nette\Application\UI\Form;
-use Nette\Http\FileUpload;
 use Wakers\BaseModule\Component\Frontend\BaseControl;
 use Wakers\BaseModule\Util\AjaxValidate;
 use Wakers\BaseModule\Database\DatabaseException;
 use Wakers\BaseModule\Util\Exception\ProtectedFileException;
-use Wakers\LangModule\Translator\Translate;
 use Wakers\OnPageModule\Manager\OnPageManager;
 use Wakers\PageModule\Database\Page;
 use Wakers\PageModule\Repository\PageRepository;
@@ -40,12 +38,6 @@ class SocialModal extends BaseControl
 
 
     /**
-     * @var Translate
-     */
-    protected $translate;
-
-
-    /**
      * @var callable
      */
     public $onSave = [];
@@ -61,16 +53,13 @@ class SocialModal extends BaseControl
      * SocialModal constructor.
      * @param PageRepository $pageRepository
      * @param OnPageManager $onPageManager
-     * @param Translate $translate
      */
     public function __construct(
         PageRepository $pageRepository,
-        OnPageManager $onPageManager,
-        Translate $translate
+        OnPageManager $onPageManager
     ) {
         $this->onPageManager = $onPageManager;
         $this->activePage = $pageRepository->getActivePage();
-        $this->translate = $translate;
     }
 
 
@@ -94,21 +83,21 @@ class SocialModal extends BaseControl
         $form = new Form;
 
         $form->addText('title')
-            ->setRequired('Social title is required')
-            ->addRule(Form::MIN_LENGTH, 'Minimal length of social title is %d chars.', 3)
-            ->addRule(Form::MAX_LENGTH, 'Maximal length of social title is %d chars.', 50);
+            ->setRequired('Titulek pro sociální sítě je povinný.')
+            ->addRule(Form::MIN_LENGTH, 'Minimální délka titulku jsou %d znaky.', 3)
+            ->addRule(Form::MAX_LENGTH, 'Maximální délka titulku je %d znaků.', 50);
 
         $form->addText('description')
             ->setRequired(FALSE)
-            ->addRule(Form::MIN_LENGTH, 'Minimal length of social description is %d chars.', 3)
-            ->addRule(Form::MAX_LENGTH, 'Maximal length of social description is %d chars.', 100);
+            ->addRule(Form::MIN_LENGTH, 'Minimální délka popisu jsou %d znaky.', 3)
+            ->addRule(Form::MAX_LENGTH, 'Maximální délka popisu je %d znaků.', 50);
 
         $form->addUpload('image')
             ->setRequired(FALSE)
-            ->addRule(Form::IMAGE, 'Image must be only JPG or PNG.')
-            ->addRule(Form::MIME_TYPE, 'Image must be image type.', ['image/jpeg', 'image/png'])
-            ->addRule(Form::MAX_FILE_SIZE, 'Maximal image size is 16 MB.', 1024 * 1024 * 16)
-            ->addRule(Form::PATTERN, 'Image must have extension (.jpg or .png).', '.*\.(jpg|png)');
+            ->addRule(Form::IMAGE, 'Obrázek může být pouze JPG or PNG.')
+            ->addRule(Form::MIME_TYPE, 'Obrázek musí mít správný mime-type.', ['image/jpeg', 'image/png'])
+            ->addRule(Form::MAX_FILE_SIZE, 'Maximální velikost obrázku je 8 MB.', 1024 * 1024 * 8)
+            ->addRule(Form::PATTERN, 'Obrázek musí mít koncovku .jpg, .png.', '.*\.(jpg|png)');
 
         $form->addSubmit('save');
 
@@ -155,8 +144,8 @@ class SocialModal extends BaseControl
                 $this->onPageManager->getConnection()->commit();
 
                 $this->presenter->notificationAjax(
-                    $this->translate->translate('Page updated'),
-                    $this->translate->translate('Social info has been successfully updated.'),
+                    'On-Page faktory',
+                    'Informace pro sociální sítě byly úspěšně uloženy.',
                     'success',
                     FALSE
                 );
@@ -168,7 +157,7 @@ class SocialModal extends BaseControl
                 $this->onPageManager->getConnection()->rollBack();
 
                 $this->presenter->notificationAjax(
-                    $this->translate->translate('Error'),
+                    'Chyba',
                     $exception->getMessage(),
                     'error'
                 );
@@ -190,8 +179,8 @@ class SocialModal extends BaseControl
             if ($removed)
             {
                 $this->presenter->notificationAjax(
-                    $this->translate->translate('Page updated'),
-                    $this->translate->translate('Image for social sites has been removed.'),
+                    'On-Page faktory',
+                    'Obrázek pro sociální sítě byl odstaněn.',
                     'info',
                     FALSE
                 );

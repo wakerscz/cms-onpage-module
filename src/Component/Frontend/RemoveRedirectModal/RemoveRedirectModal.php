@@ -11,7 +11,6 @@ namespace Wakers\OnPageModule\Component\Frontend\RemoveRedirectModal;
 
 
 use Wakers\BaseModule\Component\Frontend\BaseControl;
-use Wakers\LangModule\Translator\Translate;
 use Wakers\OnPageModule\Database\Redirect;
 use Wakers\OnPageModule\Manager\OnPageManager;
 use Wakers\OnPageModule\Repository\OnPageRepository;
@@ -38,12 +37,6 @@ class RemoveRedirectModal extends BaseControl
 
 
     /**
-     * @var Translate
-     */
-    protected $translate;
-
-
-    /**
      * @var callable
      */
     public $onRemove = [];
@@ -59,16 +52,13 @@ class RemoveRedirectModal extends BaseControl
      * RemoveRedirectModal constructor.
      * @param OnPageRepository $onPageRepository
      * @param OnPageManager $onPageManager
-     * @param Translate $translate
      */
     public function __construct(
         OnPageRepository $onPageRepository,
-        OnPageManager $onPageManager,
-        Translate $translate
+        OnPageManager $onPageManager
     ) {
         $this->onPageRepository = $onPageRepository;
         $this->onPageManager = $onPageManager;
-        $this->translate = $translate;
     }
 
 
@@ -99,8 +89,8 @@ class RemoveRedirectModal extends BaseControl
                 $this->onPageManager->removeRedirect($redirect);
 
                 $this->presenter->notificationAjax(
-                    $this->translate->translate('URL removed'),
-                    $this->translate->translate('Redirect URL has been successfully removed.'),
+                    'URL odstraněna',
+                    'URL pro přesměrování byla úspěšně odstraněna.',
                     'info',
                     FALSE
                 );

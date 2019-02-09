@@ -15,7 +15,6 @@ use Wakers\BaseModule\Database\AbstractDatabase;
 use Wakers\BaseModule\Database\DatabaseException;
 use Wakers\BaseModule\Util\Exception\ProtectedFileException;
 use Wakers\BaseModule\Util\ProtectedFile;
-use Wakers\LangModule\Translator\Translate;
 use Wakers\OnPageModule\Database\Primary;
 use Wakers\OnPageModule\Database\Redirect;
 use Wakers\OnPageModule\Database\Social;
@@ -32,20 +31,12 @@ class OnPageManager extends AbstractDatabase
 
 
     /**
-     * @var Translate
-     */
-    protected $translate;
-
-
-    /**
      * OnPageManager constructor.
      * @param OnPageRepository $onPageRepository
-     * @param Translate $translate
      */
-    public function __construct(OnPageRepository $onPageRepository, Translate $translate)
+    public function __construct(OnPageRepository $onPageRepository)
     {
         $this->onPageRepository = $onPageRepository;
-        $this->translate = $translate;
     }
 
 
@@ -62,8 +53,7 @@ class OnPageManager extends AbstractDatabase
 
         if (($redirectByUrl && $redirect !== $redirectByUrl) || (!$redirect && $redirectByUrl))
         {
-            $message = $this->translate->translate("Redirect URL: '%old-url%' is already exists.", ['old-url' => $oldUrl]);
-            throw new DatabaseException($message);
+            throw new DatabaseException("Původní URL '{$oldUrl}' již existuje.");
         }
 
         if ($redirect === NULL)
@@ -107,8 +97,7 @@ class OnPageManager extends AbstractDatabase
 
         if ($onPagePrimaryByTitle && $onPagePrimaryByTitle !== $onPagePrimary)
         {
-            $message = $this->translate->translate("Page with title: '%title%' is already exists.", ['title' => $title]);
-            throw new DatabaseException($message);
+            throw new DatabaseException("Stránka s titulkem '{$title}' již existuje.");
         }
 
         $onPagePrimary->setTitle($title);
@@ -141,8 +130,7 @@ class OnPageManager extends AbstractDatabase
 
         if ($onPageSocialByTitle && $onPageSocialByTitle !== $onPageSocial)
         {
-            $message = $this->translate->translate("Page with social title: '%title%' is already exists.", ['title' => $title]);
-            throw new DatabaseException($message);
+            throw new DatabaseException("Titulek pro soc. sítě '{$title}' již existuje.");
         }
 
         $onPageSocial->setTitle($title);
