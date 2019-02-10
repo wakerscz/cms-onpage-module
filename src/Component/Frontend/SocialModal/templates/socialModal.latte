@@ -1,78 +1,78 @@
 {**
  * Copyright (c) 2018 Wakers.cz
- *
  * @author Jiří Zapletal (http://www.wakers.cz, zapletal@wakers.cz)
- *
  *}
 
-<div class="wakers_modal" id="wakers_onpage_social_modal">
+{if $user->isAllowed(Wakers\OnPageModule\Security\OnPageAuthorizator::RES_SOCIAL)}
+    <div class="wakers_modal" id="wakers_onpage_social_modal">
 
-    <div class="modal_title">
-        <a href="#" class="close" data-wakers-modal-close>&#x2715</a>
-        Nastavení pro sociální sítě
+        <div class="modal_title">
+            <a href="#" class="close" data-wakers-modal-close>&#x2715</a>
+            Nastavení pro sociální sítě
+        </div>
+
+        <div class="modal_info">
+            Nezapomeňte stránku připravit i pro <a href="#" data-wakers-modal-open="wakers_onpage_primary_modal">vyhledávače</a>!
+        </div>
+
+        {snippet socialForm}
+            <form n:name="socialForm" class="wakers_form">
+                <div class="form_group">
+                    <div class="group_label">
+                        <label n:name="title">Titulek:</label>
+                    </div>
+
+                    <div class="group_control">
+                        <input n:name="title" placeholder="Pro telefony ideálně 27 znaků">
+                    </div>
+                </div>
+
+                <div class="form_group">
+                    <div class="group_label">
+                        <label n:name="description">Popisek:</label>
+                    </div>
+
+                    <div class="group_control">
+                        <input n:name="description" placeholder="Pro telefony ideálně 46 max. 70 znaků">
+                    </div>
+                </div>
+
+                <div class="form_group">
+                    <div class="group_label">
+                        <label n:name="image">Obrázek:</label>
+                    </div>
+
+                    <div class="group_control wakers_onpage">
+
+                        {var $onPageSocial = $presenter->template->pageEntity->getSocial()}
+
+                        {if $onPageSocial && $onPageSocial->getImage()->getPrivateFile()}
+                            <div class="onpage_og_image">
+                                <a href="{link RemoveImage!}" class="wakers_btn btn_small inverse" data-wakers-progress-button>Odstranit obrázek</a>
+
+                                <img src="{img $onPageSocial->getImage(), '1200x600', 'EXACT'}" alt="OG Image">
+                            </div>
+                        {else}
+                            <input n:name="image">
+
+                            <div class="control_info">
+                                <span data-wakers-tooltip="Rozlišení musí být 1200x600px. Ostatní velikosti budou automaticky upraveny.">
+                                    &#10025;
+                                </span>
+                            </div>
+                        {/if}
+
+                    </div>
+                </div>
+
+                <div class="form_group">
+
+                    <div class="group_label"></div>
+                    <div class="group_control">
+                        <button n:name="save" type="submit" class="wakers_btn" data-wakers-progress-button>Uložit nastavení</button>
+                    </div>
+                </div>
+            </form>
+        {/snippet}
     </div>
-
-    <div class="modal_info">
-        Nezapomeňte stránku připravit i pro <a href="#" data-wakers-modal-open="wakers_onpage_primary_modal">vyhledávače</a>!
-    </div>
-
-    {snippet socialForm}
-        <form n:name="socialForm" class="wakers_form">
-            <div class="form_group">
-                <div class="group_label">
-                    <label n:name="title">Titulek:</label>
-                </div>
-
-                <div class="group_control">
-                    <input n:name="title" placeholder="Pro telefony ideálně 27 znaků">
-                </div>
-            </div>
-
-            <div class="form_group">
-                <div class="group_label">
-                    <label n:name="description">Popisek:</label>
-                </div>
-
-                <div class="group_control">
-                    <input n:name="description" placeholder="Pro telefony ideálně 46 max. 70 znaků">
-                </div>
-            </div>
-
-            <div class="form_group">
-                <div class="group_label">
-                    <label n:name="image">Obrázek:</label>
-                </div>
-
-                <div class="group_control wakers_onpage">
-
-                    {var $onPageSocial = $presenter->template->pageEntity->getSocial()}
-
-                    {if $onPageSocial && $onPageSocial->getImage()->getPrivateFile()}
-                        <div class="onpage_og_image">
-                            <a href="{link RemoveImage!}" class="wakers_btn btn_small inverse" data-wakers-progress-button>Odstranit obrázek</a>
-
-                            <img src="{img $onPageSocial->getImage(), '1200x600', 'EXACT'}" alt="OG Image">
-                        </div>
-                    {else}
-                        <input n:name="image">
-
-                        <div class="control_info">
-                            <span data-wakers-tooltip="Rozlišení musí být 1200x600px. Ostatní velikosti budou automaticky upraveny.">
-                                &#10025;
-                            </span>
-                        </div>
-                    {/if}
-
-                </div>
-            </div>
-
-            <div class="form_group">
-
-                <div class="group_label"></div>
-                <div class="group_control">
-                    <button n:name="save" type="submit" class="wakers_btn" data-wakers-progress-button>Uložit nastavení</button>
-                </div>
-            </div>
-        </form>
-    {/snippet}
-</div>
+{/if}

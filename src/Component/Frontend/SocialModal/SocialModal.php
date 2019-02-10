@@ -15,7 +15,9 @@ use Wakers\BaseModule\Component\Frontend\BaseControl;
 use Wakers\BaseModule\Util\AjaxValidate;
 use Wakers\BaseModule\Database\DatabaseException;
 use Wakers\BaseModule\Util\Exception\ProtectedFileException;
+use Wakers\BaseModule\Util\SetDisabledForm;
 use Wakers\OnPageModule\Manager\OnPageManager;
+use Wakers\OnPageModule\Security\OnPageAuthorizator;
 use Wakers\PageModule\Database\Page;
 use Wakers\PageModule\Repository\PageRepository;
 
@@ -23,6 +25,7 @@ use Wakers\PageModule\Repository\PageRepository;
 class SocialModal extends BaseControl
 {
     use AjaxValidate;
+    use SetDisabledForm;
 
 
     /**
@@ -114,6 +117,11 @@ class SocialModal extends BaseControl
 
         $form->onValidate[] = function (Form $form) { $this->validate($form); };
         $form->onSuccess[] = function (Form $form) { $this->success($form); };
+
+        if (!$this->presenter->user->isAllowed(OnPageAuthorizator::RES_SOCIAL))
+        {
+            $this->setDisabledForm($form);
+        }
 
         return $form;
     }

@@ -14,6 +14,7 @@ use Wakers\BaseModule\Component\Frontend\BaseControl;
 use Wakers\OnPageModule\Database\Redirect;
 use Wakers\OnPageModule\Manager\OnPageManager;
 use Wakers\OnPageModule\Repository\OnPageRepository;
+use Wakers\OnPageModule\Security\OnPageAuthorizator;
 
 
 class RemoveRedirectModal extends BaseControl
@@ -80,7 +81,7 @@ class RemoveRedirectModal extends BaseControl
      */
     public function handleRemove(int $redirectId) : void
     {
-        if ($this->presenter->isAjax())
+        if ($this->presenter->isAjax() && $this->presenter->user->isAllowed(OnPageAuthorizator::RES_REDIRECT_REMOVE))
         {
             $redirect = $this->onPageRepository->findOneRedirectById($redirectId);
 

@@ -13,10 +13,12 @@ use Nette\Application\UI\Form;
 use Wakers\BaseModule\Component\Frontend\BaseControl;
 use Wakers\BaseModule\Util\AjaxValidate;
 use Wakers\BaseModule\Database\DatabaseException;
+use Wakers\BaseModule\Util\SetDisabledForm;
 use Wakers\LangModule\Database\Lang;
 use Wakers\LangModule\Repository\LangRepository;
 use Wakers\OnPageModule\Manager\OnPageManager;
 use Wakers\OnPageModule\Repository\OnPageRepository;
+use Wakers\OnPageModule\Security\OnPageAuthorizator;
 use Wakers\PageModule\Database\Page;
 use Wakers\PageModule\Repository\PageRepository;
 
@@ -24,6 +26,7 @@ use Wakers\PageModule\Repository\PageRepository;
 class RedirectModal extends BaseControl
 {
     use AjaxValidate;
+    use SetDisabledForm;
 
 
     /**
@@ -149,6 +152,11 @@ class RedirectModal extends BaseControl
                 'oldUrl' => $redirect->getOldUrl(),
                 'pageId' => $redirect->getPageId()
             ]);
+        }
+
+        if (!$this->presenter->user->isAllowed(OnPageAuthorizator::RES_REDIRECT_FORM))
+        {
+            $this->setDisabledForm($form);
         }
 
         return $form;
