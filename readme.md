@@ -1,16 +1,12 @@
-# OnPageModule
+# On-Page Module
 
-Jedná se o modul, který obstarává správu on-page faktorů.
-
-**Namespace:** `Wakers\OnPageModule\<folder>\*`.
-
-**Vzorová třída:** `Wakers\OnPageModule\Component\Frontend\Head\Head`
+Obstarává správu základních on-page faktorů - meta title, description, open-graph.
 
 
-## Frontend komponenty
+## Komponenty
 
-1. `Frontend\Head` - vypisuje info pro vyhledávače a sociální sítě.
-2. `Frontend\PrimaryModal` - nastavení pro vyhledávače.
-3. `Frontend\SocialModal` - nastavení pro sociální sítě.
-4. `Frontend\RedirecModal` - nastavení přesměrovaných URL.
-5. Další: `Frontend\DashboardModal`, `Frontend\RemoveRedirectModal`.
+1. `Frontend\Head` - Vypisuje info pro vyhledávače a sociální sítě.
+2. `Frontend\PrimaryModal` - Nastavení pro vyhledávače.
+3. `Frontend\SocialModal` - Nastavení pro sociální sítě.
+4. `Frontend\RedirecModal` - Nastavení přesměrovaných URL.
+5. `Frontend\RemoveRedirectModal` - Potvrzovací modal pro odstranění redirectu URL.
