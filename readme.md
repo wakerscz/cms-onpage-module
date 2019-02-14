@@ -1,6 +1,6 @@
 # On-Page Module
 
-Obstarává správu základních on-page faktorů - meta title, description, open-graph.
+Modul zajišťuje editaci základních on-page faktorů pro vyhledávače a sociální sítě.
 
 
 ## Komponenty
